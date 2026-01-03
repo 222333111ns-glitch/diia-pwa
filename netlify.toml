@@ -5,3 +5,4 @@
   from = "/*"
   to = "/app.py"
   status = 200
+  force = true
