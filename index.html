@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дія</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Дія">
+    <meta name="theme-color" content="#000000">
+    <style>
+        body {font-family: Arial; text-align: center; background: #000; color: #fff; padding: 20px;}
+        h1 {font-size: 32px;}
+        input {font-size: 18px; padding: 10px; width: 80%; margin: 20px;}
+        button {font-size: 18px; padding: 12px 24px; background: #ffd700; color: #000; border: none; border-radius: 8px;}
+        .data {margin-top: 40px;}
+        img {max-width: 200px; border-radius: 12px; margin: 20px 0;}
+        .expired {color: red; font-size: 24px;}
+    </style>
+</head>
+<body>
+    <h1>Аналог Дія</h1>
+    <p>Введіть код доступу з бота:</p>
+    <input type="text" id="code" placeholder="Наприклад: 97Vc82ca">
+    <button onclick="loadData()">Увійти</button>
+    <div id="result" class="data"></div>
+    <script>
+        async function loadData() {
+            const code = document.getElementById('code').value.trim();
+            if (!code) return alert("Введіть код!");
+            try {
+                const res = await fetch(`http://192837465Ns.pythonanywhere.com/get_data?code=${code}`);
+                const data = await res.json();
+                let html = '';
+                if (data.fio.includes("ЗАВЕРШЕНО") || data.fio.includes("Помилка") || data.fio.includes("Код не")) {
+                    html = `<p class="expired">${data.fio}</p>`;
+                } else {
+                    html = `<h2>Ваші дані</h2>
+                            <p><strong>ПІБ:</strong> ${data.fio}</p>
+                            <p><strong>Дата народження:</strong> ${data.birthdate}</p>
+                            ${data.photo_url ? `<img src="${data.photo_url}" alt="Фото">` : ''}`;
+                }
+                document.getElementById('result').innerHTML = html;
+            } catch (e) {
+                alert("Невірний код або термін дії закінчився");
+            }
+        }
+    </script>
+</body>
+</html>
