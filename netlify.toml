@@ -1,8 +1,10 @@
 [build]
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+
 [[redirects]]
   from = "/*"
-  to = "/app.py"
+  to = "/.netlify/functions/app"
   status = 200
-  force = true
